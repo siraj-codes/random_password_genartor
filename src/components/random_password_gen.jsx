@@ -1,5 +1,5 @@
 // import './index.css'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useState } from 'react'
 
 
@@ -37,6 +37,13 @@ const RandomPasswordGen = () => {
 
   },[length , numberAllowed , charAllowed , setPassword])
 
+  const passRef = useRef(null)
+
+  const copyPassword = useCallback(()=>{
+    window.navigator.clipboard.writeText(password)
+    alert('Copied')
+  } ,[password])
+
   useEffect(()=>{
     passwordGenerator()
   },[length , numberAllowed , charAllowed , passwordGenerator])
@@ -47,8 +54,8 @@ const RandomPasswordGen = () => {
     <div className='px-14 my-12 w-full max-w-md mx-auto shadow-md rounded-lg text-green-500 '>
       <h1 className='text-center text-white bg-black my-3 text-3xl'>Password generator</h1>
       <div className='flex shadow rounded-lg overflow-hidden mb-4 text-2xl'>
-        <input type="text" value={password} className='ouline-none w-full py-1 px-3'  placeholder='password' readOnly/>
-        <button className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0'>copy</button>
+        <input type="text" value={password} className='ouline-none w-full py-1 px-3'  placeholder='password' readOnly ref={passRef}/>
+        <button className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0' onClick={()=>copyPassword()}>copy</button>
       </div>
       <div className='flex text-sm gap-x-2'>
         <div className='flex items-center gap-x-1'>
